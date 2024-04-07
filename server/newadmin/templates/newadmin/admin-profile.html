@@ -1,0 +1,393 @@
+{% extends "admin-base.html" %}
+{% load static %}
+
+
+{% block title %}Profile{% endblock %}
+
+{% block header %}
+
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+{% include "admin-inc/header.html" %}
+ <!-- side bar  -->
+ {% include "admin-inc/side-bar.html" %}
+
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Profile</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+              {% if admin.image %}
+
+                <img src="{{ admin.image.url }}" alt="Profile" style="width: 100px;height: 100px; aspect-ratio: 1/1;" class="rounded-circle">
+              
+                {% else %}
+                <img src="{% static 'newadmin/assets/img/default-admin.jpg' %}"  class="rounded-circle">
+                <!-- <img src="{% static 'newadmin/assets/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">  -->
+
+
+              {% endif %} 
+
+
+              <h2>{{ admin.fullName }}</h2>
+              <h3>{{ admin.job }}</h3>
+              <div class="social-links mt-2">
+                <a target="_blank" href="{{ admin.twitter }}" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a target="_blank" href="{{ admin.facebook  }}" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a target="_blank" href="{{ admin.instagram }}" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a target="_blank" href="{{ admin.linkedin }}" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-8"> 
+
+          <div class="card">
+    
+            <div class="card-body pt-3">
+
+
+                   <!-- alert div  -->
+                  <div class="alert-div alert  alert-dismissible fade show d-none" role="alert">
+                    <strong class="status"></strong><p class="message"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+
+
+      
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                </li>
+
+              </ul>
+
+              <div class="tab-content pt-2">
+
+                <!-- profile  overview pane  -->
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                
+                  <h5 class="card-title">Profile Details</h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                    <div class="col-lg-9 col-md-8">{{ admin.fullName}}</div>
+                  </div>
+
+                  
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Job</div>
+                    <div class="col-lg-9 col-md-8">{{ admin.job }}</div>
+                  </div>
+
+             
+
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Email</div>
+                    <div class="col-lg-9 col-md-8">{{ admin.email }}</div>
+                  </div>
+
+                </div>
+
+                <!-- profile edit pane -->
+                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                  <!-- Profile Edit Form -->
+                  <form id="profile-edit-form" method="post"  >
+                    {% csrf_token %}
+                   
+                    <div class="row mb-3">
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                      <div class="col-md-8 col-lg-9">
+
+                        {% if admin.image %}
+
+                        <img src="{{ admin.image.url }}" style="aspect-ratio: 1/1;">
+                      
+                        {% else %}
+                        <img src="{% static 'newadmin/assets/img/default-admin.jpg' %}"  style="aspect-ratio: 1/1;">
+
+                        <!-- <img src="{% static 'newadmin/assets/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">  -->
+        
+        
+                      {% endif %}
+                        
+                        <div class="pt-2">
+
+                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"
+                             data-bs-toggle="modal" data-bs-target="#profileImageModal"
+                          ><i class="bi bi-upload" ></i></a>
+                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+
+
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="fullName" type="text" class="form-control" id="fullName" value="{{ admin.fullName }}" required>
+                      </div>
+                    </div>  
+
+
+                    <div class="row mb-3">
+                      <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label> 
+                      <div class="col-md-8 col-lg-9">
+                        <input name="username" type="text" class="form-control" id="username" value="{{ admin.username }}" required>
+                      </div>
+                    </div>
+
+                    
+
+                    <div class="row mb-3">
+                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="job" type="text" class="form-control" id="Job" value="{{ admin.job }}" required>
+                      </div>
+                    </div> 
+
+
+
+            
+
+                   
+
+                    <div class="row mb-3">
+                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="email" type="email" class="form-control" id="Email" value="{{ admin.email }}" required>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="twitter" type="text" class="form-control" id="Twitter" value="{{ admin.twitter }}" required>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="facebook" type="text" class="form-control" id="Facebook" value="{{ admin.facebook }}" required>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="instagram" type="text" class="form-control" id="Instagram" value="{{ admin.instagram}}" required>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="linkedin" type="text" class="form-control" id="Linkedin" value="{{ admin.linkedin }}" required >
+                      </div>
+                    </div>
+
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                  </form><!-- End Profile Edit Form -->
+
+                </div>
+
+                <div class="tab-pane fade pt-3" id="profile-settings">
+
+                  <!-- Settings Form -->
+                  <form id="profile-settings-form">
+
+                    {% csrf_token %}
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
+                      <div class="col-md-8 col-lg-9">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                          <label class="form-check-label" for="changesMade">
+                            Changes made to your account
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="newProducts" checked>
+                          <label class="form-check-label" for="newProducts">
+                            Information on new products and services
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="proOffers">
+                          <label class="form-check-label" for="proOffers">
+                            Marketing and promo offers
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
+                          <label class="form-check-label" for="securityNotify">
+                            Security alerts
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                  </form><!-- End settings Form -->
+
+                </div>
+
+
+                <div class="tab-pane fade pt-3" id="profile-change-password">
+                  <!-- Change Password Form -->
+                  <form id="profile-change-password-form" method="post">
+
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="currentPassword" type="password" class="form-control" id="currentPassword">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                      <div class="col-md-8 col-lg-9"> 
+                        <input name="newPassword" type="password" class="form-control" id="newPassword">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="confirmPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="confirmPassword" type="password" class="form-control" id="confirmPassword">
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Change Password</button>
+                    </div>
+                  </form><!-- End Change Password Form -->
+
+                </div>
+
+              </div><!-- End Bordered Tabs -->  
+
+
+              <!-- POPUP  MODALS  -->
+                <!-- profile picture upload modal -->
+                <div class="modal fade" id="profileImageModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title h2 fw-bold">Upload Profile Image </h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                      <!-- alert div -->
+                      <div class="alert d-none" id="profile-image-upload-alert" role="alert">
+                      </div>
+
+                      <!-- loader setup -->
+                      
+                      <div class="profile-upload-loader" id="loader" hidden style="height:80px;width:80px;padding-bottom:50px;margin: 0 auto;"> 
+                        <div class="spinner-border text-primary" role="status">
+                          <span class="visually-hidden">UPLOADING...</span>
+                        </div>
+                      </div> 
+
+                      <!-- form for selecting an  image and uploading a  profile image with a label that cliks file input --->
+
+                      <form  id="profile-image-upload-form" class="g-3 needs-validation" novalidate  method="post" enctype="multipart/form-data"  >
+                        {% csrf_token %}
+                        <div class="input-group has-validation">
+                            <label for="selectImage" class="col-md-4 col-lg-3 col-form-label">Select Image</label>
+                            <input type="file" name="image" id="selectImage" class="form-control mb-3" required accept="image/*">
+    
+                            <!-- submit button -->
+                            <button id="uploadProfileImage" type="submit" class="btn btn-primary" hidden>Upload</button>
+
+                            <!-- invalid feedback  -->
+                            <div class="invalid-feedback">Please select an image.</div>
+                        </div> 
+                      
+               
+                      </form>
+                      
+                      
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">cancel</button>
+                      <label for="uploadProfileImage" type="button" class="btn btn-primary" >Upload</label>  
+
+                    </div>
+                  </div>
+                </div>
+                </div>
+              <!-- END OF POPUP MODALS -->
+              
+                              
+
+
+
+                  <script src="{% static 'newadmin/js/admin-profile.js' %}"></script>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main --> 
+
+{% endblock %}

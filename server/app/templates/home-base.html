@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>{% block title %} {% endblock %}</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'home/assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'home/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'home/assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'home/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'home/assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'home/assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'home/assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'home/assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'home/assets/css/style.css' %}" rel="stylesheet"> 
+  {% block head %} {% endblock %}
+  <style>
+    .loader-overlay{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,1);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      display: none;
+    } 
+
+    .loader-overlay.active{
+      display: block;
+    }
+
+    .loader{
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="loader-overlay active">
+    <div class="loader">
+      <div class="spinner-border text-primary" role="status" style="width:100px; height:100px">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+<script>
+  const LOADER = document.querySelector('.loader-overlay')
+</script>
+
+    <!-- including header -->
+    {% include 'inc/header.html' %}
+    {% block content %} {% endblock %}
+    
+    <!-- including footer  -->
+    {% include 'inc/footer.html' %} 
+
+     <!-- Vendor JS Files -->
+  <script src="{% static 'home/assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'home/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'home/assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'home/assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'home/assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'home/assets/js/main.js' %}"></script> 
+
+ <!-- hiding the loader if page is fully loaded  -->
+  <script>
+    window.addEventListener('load', function(){
+    LOADER.classList.remove('active')
+    }) 
+  </script>
+</body>
+
+</html>

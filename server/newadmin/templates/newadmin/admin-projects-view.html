@@ -1,0 +1,202 @@
+{% extends "admin-base.html" %}
+{% load static %}
+
+{% block content %}
+  {% include "admin-inc/header.html" %}
+  {% include "admin-inc/side-bar.html" %}
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Projects</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+          <li class="breadcrumb-item"><a href="#">Projects</a></li>
+          <li class="breadcrumb-item active">View</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title --> 
+
+    <section class="section projects">
+      <div class="row">
+
+             <!-- displaying sucessful delete if status ==  success -->
+             {% if status == 'success' %}
+             <div class="col-lg-12 alert alert-success alert-dismissible fade show" role="alert">
+               <strong>Success!</strong>
+                {% if task %} {{task}} {% endif %}
+                
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+             </div>
+             {% endif %}
+             <!-- displaying error if status ==  error -->
+             {% if status == 'error' %}
+             <div class="col-lg-12 alert alert-danger alert-dismissible fade show" role="alert">
+               <strong>Error!</strong>  
+                  {% if task %} {{task}} {% endif %}
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+             </div>
+             {% endif %}   
+   
+        
+              <div class="col-lg-12">
+      
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Uploaded Projects </h5> 
+                    
+                    <!-- Default Table -->
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">id</th><th scope="col">Name</th>
+                          <th scope="col">Title</th>
+                          <th scope="col">Type</th>
+                          <th scope="col">Images</th>
+                          <th scope="col">Manage</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {% if  script %}
+                        <script>
+                          
+                           {{ script | safe }}
+                        </script>
+
+                        {% endif%}
+                  
+                        {% if  projects %}
+                            {% for project in projects%}
+                              <tr class="table-row" > 
+                                <th scope="row">{{project.index}}</th>
+                                <td>{{project.name}}</td>
+                                <td>{{project.title}}</td>
+                                <td>{{project.type}}</td>
+                                <td>{{project.images_length}}</td>
+                                <td class="row">
+                                  <!-- delete button -->
+                                
+                                    <button  data-project-id="{{project.unique_id}}"  type="button" class="btn btn-danger btn-sm col me-1 delete-project" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                                  </form> 
+
+
+                                  <a title="view the all the data  about the  project " href="/admin/projects/view/{{project.name}}/" class="btn btn-success btn-sm me-1 col">View</a> 
+                                  <button  title="change the project data to your own needs" class="btn btn-primary btn-sm col">Edit</button>   
+                                </td>
+                              </tr> 
+
+                            {% endfor %}
+                        {% endif %}
+
+                        <script>
+                          document.querySelectorAll('.delete-project').forEach((item)=>{
+                              item.addEventListener('click' ,(e)=>{
+                                 document.querySelector('#project-id-input').value = item.dataset.projectId;
+                              })
+                          }) 
+
+
+                          
+                          document.querySelectorAll('.table-row').forEach(row => {
+                            row.addEventListener('mouseover', () => {
+                              row.classList.add('table-info');
+                            });
+                            row.addEventListener('mouseout', () => {
+                              row.classList.remove('table-info');
+                            });
+                          });  
+                        
+                        </script>
+                      </tbody>
+                    </table>
+                    <!-- End Project  Table -->
+                  </div>
+                </div>
+      
+     
+              </div>
+
+
+              <!-- popup modals -->
+          
+                  <!-- delete project  popup modal -->
+                  <div class="modal fade" id="deleteModal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title h2 fw-bold">Delete Project</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p class="h3 fw-bold">Are you sure you want to delete this project?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>  
+
+
+
+                          <form id="delete-project-form" class="btn-sm col me-1" action="/admin/projects/delete/" method="post">
+                            {% csrf_token %}
+                            <input id="project-id-input"type="hidden" name="unique_id" value="">
+                            <button type="submit" class="btn btn-danger btn-sm col me-1">Yes !! Delete...</button>
+                          </form>  
+
+                          <script>
+                            let form = document.querySelector('#delete-project-form');
+                            form.addEventListener('submit', (e)=>{
+                              e.preventDefault();
+                                  // lets display a loader in the  popup modal
+                                  document.querySelector('#deleteModal .modal-body').innerHTML = `<div class="d-flex justify-content-center">
+                                    Deleting  project
+                                  <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Deleting .....</span>
+                                  </div>
+                                </div>`; 
+
+                              let formData = new FormData(form);
+                              let url = form.action;
+                              let xhr = new XMLHttpRequest();
+                              xhr.open('POST', url, true);
+                              xhr.onload = function(){
+                            
+                                if(this.status == 200){
+                                  let response = JSON.parse(this.responseText);
+                                  if(response.status == 'success'){
+                                      // setting the delete pop up modal to have  display the  project has been  deleted 
+                                      let task = response.task;
+                                      document.querySelector('#deleteModal .modal-body').innerHTML = `<p class="h3 fw-bold">${task}</p>`; 
+                                      // refreshing the page after 1 second
+                                      setTimeout(()=>{
+                                        window.location.reload();
+                                      }, 1000)
+                                  }else{
+                                    alert('something went wrong....');
+                                  }
+                                }
+                              }
+                              xhr.send(formData);
+                            })
+                          </script>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div><!-- End delete  project  Modal-->
+    
+            
+    
+      </div>
+    </section> 
+
+
+    
+  </main>
+
+  {% include "admin-inc/footer.html" %}
+
+      
+{% endblock %}
+

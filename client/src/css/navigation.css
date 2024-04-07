@@ -1,0 +1,62 @@
+:root{
+    --left-nav-width: 80px;
+    --top-nav-height: 50px;
+    --box-shadow:0 0 7px 7px rgba(0,0,0,0.4);
+}
+
+
+
+.fixed-left{
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: var(--left-nav-width);
+    height: 100vh;
+    padding:  0;
+    overflow-y: auto;
+    z-index: 1;
+}
+
+
+  
+
+.fixed-top{
+    position:fixed;
+    top: 0;
+    width: 100%;
+    height: var(--top-nav-height);
+    z-index: 1;
+    left: var(--left-nav-width) ;
+    right: 0; 
+
+    box-shadow:var(--box-shadow) ;
+}
+
+.main-content{
+    position: relative;
+    /* top: var(--top-nav-height); */
+    left: var(--left-nav-width);
+    width: calc(100% - var(--left-nav-width));
+    /* height: calc(100vh - var(--top-nav-height)); */
+    height:100vh;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: var(--color-light);
+}
+
+
+/* hamburger menu toggle */
+
+.ham-toggle {
+    cursor: pointer;
+}
+
+/* Style for the fa-bars icon */
+.ham-toggle:before {
+    content: "\f0c9"; /* Unicode for fa-bars */
+}
+
+/* Style for the fa-times icon */
+.ham-toggle.toggled:before {
+    content: "\f00d"; /* Unicode for fa-times */
+}

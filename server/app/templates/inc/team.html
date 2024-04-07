@@ -1,0 +1,58 @@
+{% load static %}
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team">
+        <div class="container">
+  
+          <div class="section-title" data-aos="fade-up">
+            <h2>Team</h2>
+            <p>Our team is always here to help</p>
+          </div>
+  
+          <div class="row">
+            {% if team %}
+              {% for member in team %} 
+                <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                  <div class="member">
+
+                    <style>
+                      /* setting all images  with  img-fluid to  be same height and width  */
+                      @media screen and (min-width:900px) {
+                        .member .img-fluid{
+                        height: 300px !important;
+                        width: 300px !important;
+                        object-fit: cover !important;
+                      }
+                      }
+                    
+                    </style>
+
+
+                    {% if member.image %}
+                      <img src="{{ member.image.url  }}" class="img-fluid" alt="">
+                    {% else %}
+                      <img src="{% static 'home/assets/img/admin_default.jpg' %}" class="img-fluid team-img" alt="">
+                    {% endif %}
+                    <div class="member-info">
+                      <div class="member-info-content">
+                        <h4>{{ member.fullName }}</h4>
+                        <span>{{ member.job }}</span>
+                      </div>
+                      <div class="social">
+                        <a target="_blank" href="{{ member.twitter }}"><i class="bi bi-twitter"></i></a>
+                        <a target="_blank" href="{{ member.facebook }}"><i class="bi bi-facebook"></i></a>
+                        <a target="_blank" href="{{ member.instagram }}"><i class="bi bi-instagram"></i></a>
+                        <a target="_blank" href="{{ member.linkedin }}"><i class="bi bi-linkedin"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+  
+
+          </div>
+  
+        </div>
+      </section><!-- End Team Section -->
+  

@@ -1,0 +1,9 @@
+asgiref
+Django==3.2.16
+gunicorn
+Pillow
+pyt
+sqlparse
+djangorestframework
+markdown       # Markdown support for the browsable API.
+django-filter  # Filtering support

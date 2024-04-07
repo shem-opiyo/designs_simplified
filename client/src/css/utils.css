@@ -1,0 +1,324 @@
+* , *::before , *::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-size:medium; */
+    outline: none;
+    list-style-type: none;
+    text-decoration: none;
+    border: none;
+}
+
+
+
+
+/* getting all elements with hidden attributes abd hiding  them */
+[hidden]{
+    display: none;
+}
+
+/* images setup  */
+
+.profile-photo{
+    width: 2.7rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+}
+img{
+    display: block;
+    width: 100%;
+}
+
+
+:root{
+    --color-white:#ffffff;
+    --color-light:#f0eef6;
+    --color-lighter:#f7f7f7;
+    --color-gray:#454449;
+    --color-primary: #2176ff;
+    --color-secondary:#d6ccff;
+    --color-success:#51fb51;
+    --color-danger:#fb5151;
+    --color-navy:#241e38;  
+    --color-dark:#1c1b1e;
+
+    --color-black:#151221;
+    --color-overlay:rgba(0,0,0,0.5);
+
+    --small-font:0.8rem;
+    --large-font:1.2rem;
+    --larger-font: 1.6rem;
+
+    --btn-padding: 0.5rem 1rem;
+
+    --transtion:all 0.2s ease-in-out;
+}
+
+/* backgrounds */
+.bg-dark{
+    background: var(--color-dark);
+}
+
+.bg-navy{
+    background: var(--color-navy);
+}
+
+
+.bg-light{
+    background: var(--color-light);
+}
+.bg-primary{
+    background: var(--color-primary);
+}
+.bg-secondary{
+    background: var(--color-secondary);
+}
+
+.bg-success{
+    background: var(--color-success);
+}
+
+.bg-danger{
+    background-color: var(--color-danger);
+}
+
+.flex{
+    display: flex;
+}
+
+
+.flex.column{
+    flex-direction: column;
+}
+
+
+.flex.column.center{
+    justify-content: center;
+    align-items:auto;
+    flex-direction: column;
+}
+
+.flex.row{
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.flex.space-between{
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* grid display classes */
+.grid{
+    display: grid;
+}
+.grid.center{
+    place-items: center;
+}
+.grid.center-center{
+    place-items: center center;
+}
+.grid.center-start{
+    place-items: center start;
+}
+.grid.center-end{
+    place-items: center end;
+}
+
+.container{
+    max-width:80%;
+    margin: 0 auto;
+    overflow-x: hidden; 
+}
+
+/* REMOVING CONTAINER SCROLL BAR */
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+/* buttons styling */
+.btn{
+    display: inline-block;
+    padding: var(--btn-padding);
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 300ms ease;
+    padding: var(--btn-padding);
+    border-radius: 3px;
+
+}
+
+.btn:hover{
+    opacity: 0.6;
+}
+
+.btn.primary{
+    background: var(--color-primary);
+    color: #fff;
+    
+}
+
+.btn.full-width{
+    width:100%;
+}
+
+.btn.secondary{
+    background: var(--color-secondary);
+    color: var(--color-dark);
+}
+
+.btn.danger{
+    background: var(--color-danger);
+    color: var(--color-white);
+}
+.btn.success{
+    background: var(--color-success);
+    color: var(--color-white);
+}
+
+
+
+/* button  loading animation */
+.btn.loading{
+    overflow: hidden;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+.btn.loading i::before{
+    color: var(--color-white);
+    content: '\f110';
+    overflow: hidden;
+    cursor: not-allowed;
+    font-size: larger;
+}
+
+
+/* loading  the content */
+.btn.loading i{
+    animation : loadingData 1s infinite linear;
+}
+
+@keyframes loadingData{
+   0%{
+         transform: rotate(0deg);
+   }
+    100%{
+        transform: rotate(359deg);
+    }
+}
+
+.text-light{
+    color: var(--color-light);
+}
+.text-dark{
+    color: var(--color-dark);
+} 
+
+.text-danger{
+    color: var(--color-danger);
+}
+
+.text-success{
+    color: var(--color-success);
+}
+
+
+.text-bold{
+    font-weight: bolder;
+}
+.text-large{
+    font-size: var(--large-font);
+}
+.text-larger{
+    font-size:var(--larger-font);
+}
+.text-small{
+    font-size: var(--small-font)
+}
+
+.text-center{
+    text-align: center;
+}
+
+
+
+.text-muted{
+    color: var(--color-gray);
+    opacity: 0.5;
+}
+
+.text-primary{
+    color: var(--color-primary);
+}
+
+
+
+ .hash-tag{
+    color: var(--color-primary);
+ }
+
+
+
+
+/* FORM CONTROL */
+.form-control{
+    width: 100%;
+    /* background: red; */
+    padding:15px 25px;
+}
+.form-control .btn.full-width{
+    width: 100%;
+}
+
+
+.form-control input,textarea,select ,option{
+    width:100%;
+    border:1px solid #999;
+    outline: none;
+    padding: 15px 25px;
+    border-radius: 5px;
+    font-size: large;
+}
+
+.form-control input.large-rounded{
+    border-radius: 20px;
+}
+
+.form-control input.small-input{
+  width: auto;
+}
+.form-control input.side-input{
+  width: 30px;
+}
+.form-control.small-gap label{
+  margin-left: 10px;
+}
+
+.form-control.inline input{
+    background: transparent;
+    max-height:1.5rem;
+    border: none;
+    border-radius: 3px;
+
+    padding: 5px;
+     border-radius: 3px;
+}
+
+.form-control.inline input{
+    color: inherit;
+}
+
+
+
+
+
+
+/* gap  classes .... use   javscript  to set the gaps to  be specified from  the  class ... eg  gap-10px , gap-2rem */
+.gap-10px{
+    gap: 10px;
+}
+
+

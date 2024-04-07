@@ -1,0 +1,120 @@
+  {% load static %}
+  
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <h4>Join Our Newsletter</h4>
+            <p>Stay inspired with the latest trends and tips. Subscribe to our newsletter for exclusive offers!</p>
+            <form class="subscribe-form" action="/client/subscribe/" method="post" >
+              {% csrf_token %}
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+            <script>
+              document.querySelector('.subscribe-form').onsubmit = (e) => {
+                e.preventDefault();
+                fetch("/client/subscribe/" , {
+                  method: "POST",
+                  headers: {
+                    // sending form data to the server along with the csrf token
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                  },
+                  body: JSON.stringify({
+                    "email": document.querySelector('input[name="email"]').value,
+                  })
+                }).then(response => response.json())
+                .then(data => {
+                  console.log(data)
+                  if (data.status == "success") {
+                    alert(data.message)
+                  } else {
+                    alert(data.message)
+                  } 
+                  window.location.reload()
+                })
+                .catch(err => {
+                  console.log(err + "Something went wrong please try again later")
+                  alert("Something went wrong please try again later")
+                })
+              }
+            </script>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3>Ninestars</h3>
+            <p>
+              {{company.street}} <br>
+              {{ company.city }}<br>
+              {{ company.country }}<br><br>
+              <strong>Phone:</strong>{{ company.phone }}<br>
+              <strong>Email:</strong>{{ comnpany.email }}<br>
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#about">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#services">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#portfolio">Portfolio</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#team">Team</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+
+              {% for service in company.services %}
+                  <li><i class="bx bx-chevron-right"></i> <a href="#{{ service}}">{{service}}</a></li>
+              {% endfor %}
+
+              <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li> -->
+
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Social Networks</h4>
+            <p>Connect with us on our social media links : </p>
+            <div class="social-links mt-3">
+              <a href="{{company.twitter }}" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a href="{{company.facebook}}" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <a href="{{company.instagram}}" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+              <a href="{{company.linkedin}}" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container py-4">
+      <div class="copyright">
+        &copy; Copyright <strong><span>{{ company.name }}</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+      
+        Designed by <a href="#">DevSync Tech Solutions</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

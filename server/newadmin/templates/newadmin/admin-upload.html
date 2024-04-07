@@ -1,0 +1,151 @@
+{% extends "admin-base.html" %}
+
+{% block title %}Upload{% endblock %}
+
+{% block content %} 
+{% include "admin-inc/header.html" %} 
+{% include "admin-inc/side-bar.html" %} 
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Projects Upload</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+          <li class="breadcrumb-item">Projects</li>
+          <li class="breadcrumb-item active">Upload</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row"> 
+
+          <!-- displaying sucessful upload if status ==  success -->
+          {% if status == 'success' %}
+          <div class="col-lg-12 alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong>
+             {% if task %} {{task}} {% endif %}
+             
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endif %}
+          <!-- displaying error if status ==  error -->
+          {% if status == 'error' %}
+          <div class="col-lg-12 alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong>  
+               {% if task %} {{task}} {% endif %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endif %}   
+
+          {% if script %}
+            <script>
+              {{ script| safe }}
+            </script>
+          {% endif %}
+
+
+          
+
+
+   
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Fill in  the  project details</h5>
+
+              <!-- PROJECTS UPLOAD  FORM -->
+              <form method="post" enctype="multipart/form-data" id="project-upload-form">
+
+                {% csrf_token %} 
+
+                  
+                  <div class="col-sm-12"> 
+
+                          <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label">Type </label>
+                            <div class="col-sm-10">
+                              <select id="project-type" name="type" class="form-select" aria-label="project type select" required>
+                                <option value="">Select the project type </option>
+                                <option value="interior_design">Interior Design</option>
+                                <option value="building_drawings">Building Drawings</option>
+                                <option value="site_supervision">Site Supervision</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="form-floating mb-3">
+                            <input  name="name" type="text" class="form-control" id="floatingInput" placeholder="Project Name" required > 
+                            <label for="floatingInput">Name </label>
+                          </div>
+                          <div class="form-floating mb-3">
+                            <input name="title" type="text" class="form-control" id="floatingTitle" placeholder="Title" required>
+                            <label for="floatingTitle">Title</label>
+                          </div>
+
+                          <div class="row mb-3">
+                              <label for="inputText" class="col-sm-2 col-form-label"> Images</label>
+                              <div class="col-sm-10">
+                                <input name="images" type="file" class="form-control" accept="image/*" multiple required>
+                              </div>
+                          </div>
+
+                          <div class="form-floating mb-3">
+                            <textarea name="description" class="form-control" placeholder="Enter Project Description Here" id="floatingTextarea" style="height: 100px;" required></textarea>
+                            <label for="floatingTextarea">Description</label>
+                          </div> 
+
+                          <!-- submit  button resides  here -->
+                          <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary">
+                              Submit 
+                              
+                            </button>
+                          </div>
+
+                          <script>
+
+                           /* let projectTypeSelect = document.querySelector("#project-type"),
+                              projectType = projectTypeSelect.options[projectTypeSelect.selectedIndex].value
+                            */
+
+
+                            
+
+                            let projectUploadForm = document.querySelector("#project-upload-form")
+                            let submitBtn = projectUploadForm.querySelector("button[type='submit']")
+                            projectUploadForm.onsubmit =(e)=>{
+                              //e.preventDefault()
+                              submitBtn.innerHTML=`
+                              <span class="spinner-border" ></span>
+                              `
+                              
+                            }
+
+                          </script>
+
+
+           
+                  </div>
+
+
+         
+              </form><!-- End  PROJECTS UPLOAD  FORM -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+
+
+{% include 'admin-inc/footer.html' %}
+
+{% endblock %}

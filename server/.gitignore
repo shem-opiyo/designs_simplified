@@ -1,0 +1,8 @@
+
+nginx-server.conf 
+
+gunicorn-access.log
+
+gunicorn-error.log
+
+media/*

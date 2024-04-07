@@ -1,0 +1,32 @@
+{% extends 'home-base.html' %}
+
+{% load static %}
+
+{% block title %} {{company.title}} {% endblock %}
+
+{% block content %}
+
+
+  {% comment %}  {% include 'inc/cta.html' %} {% endcomment %}
+
+{% include 'inc/hero.html' %}
+  <main id="main">
+
+    {% include 'inc/about.html' %}
+
+    {% include 'inc/services.html' %}
+
+    {% include 'inc/portfolio.html' %}
+
+
+    {% include 'inc/team.html' %}
+
+    {% include 'inc/contact.html' %}
+ 
+  </main>
+
+ 
+
+ 
+
+{% endblock %} 
